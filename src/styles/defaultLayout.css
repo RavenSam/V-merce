@@ -1,0 +1,12 @@
+.navbar-brand {
+   font-weight: 800;
+}
+
+.content {
+   min-height: 60vh;
+}
+
+.btn {
+   border-radius: 20px !important;
+   padding: 0.4rem 1.4rem !important;
+}
