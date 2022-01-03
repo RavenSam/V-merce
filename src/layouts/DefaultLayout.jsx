@@ -7,7 +7,7 @@ export default function DefaultLayout({ children }) {
       <div>
          <Header />
 
-         <main className="content container-lg">{children}</main>
+         <main className="content container-lg py-5">{children}</main>
 
          <Footer />
       </div>

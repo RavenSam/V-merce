@@ -1,50 +1,57 @@
-import { collection, addDoc, getDocs } from "firebase/firestore"
-import { useState } from "react"
+import { collection, getDocs } from "firebase/firestore"
+import { useEffect, useState } from "react"
 import fireDB from "../firebaseConfig"
 import DefaultLayout from "../layouts/DefaultLayout"
 
 export default function HomePage() {
-   const [users, setUsers] = useState([])
+   const [products, setProducts] = useState([])
 
-   const addData = async () => {
+   const getProducts = async () => {
       try {
-         const newUser = { name: "sara Doe", email: "saradoe@email.com" }
+         const data = await getDocs(collection(fireDB, "products"))
 
-         const docRef = await addDoc(collection(fireDB, "users"), newUser)
-      } catch (err) {
-         console.log(err)
-      }
-   }
+         const allProducts = []
 
-   const getData = async () => {
-      try {
-         const getUsers = await getDocs(collection(fireDB, "users"))
-
-         const allUsers = []
-
-         getUsers.forEach((doc) => {
-            allUsers.push({ id: doc.id, ...doc.data() })
+         data.forEach((doc) => {
+            allProducts.push({ id: doc.id, ...doc.data() })
          })
 
-         setUsers(allUsers)
+         setProducts(allProducts)
       } catch (err) {
          console.log(err)
       }
    }
 
-   console.log(users)
+   useEffect(() => {
+      getProducts()
+   }, [])
 
    return (
       <DefaultLayout>
-         <h1>Home</h1>
+         <div className="container">
+            <div className="row g-3">
+               {products.map((product) => (
+                  <div className="col-sm-6 col-md-4" key={product.id}>
+                     <div className="m-1 p-2 product-card">
+                        <div className="product-img">
+                           <img src={product.imageUrl} alt={product.name} width={150} height={200} />
+                        </div>
 
-         <button className="btn btn-outline-info" onClick={addData}>
-            Add Data
-         </button>
+                        <div className="product-content">
+                           <span className="product-category">{product.category}</span>
+                           <h2 className="product-title">{product.name}</h2>
+                           <p className="product-price">${product.price}</p>
+                        </div>
 
-         <button className="btn btn-outline-info" onClick={getData}>
-            Retrieve Data
-         </button>
+                        <div className="product-btn ">
+                           <button className="btn bg-dark text-light">Add to Cart</button>
+                           <button className="btn bg-dark text-light">View</button>
+                        </div>
+                     </div>
+                  </div>
+               ))}
+            </div>
+         </div>
       </DefaultLayout>
    )
 }

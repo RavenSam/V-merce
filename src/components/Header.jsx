@@ -4,7 +4,7 @@ import { HiOutlineMenuAlt3, HiOutlineShoppingCart, HiOutlineUser } from "react-i
 
 export default function Header() {
    return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light">
          <div className="container-lg">
             <Link className="navbar-brand bold" to="/">
                LOGO
