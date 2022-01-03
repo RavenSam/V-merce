@@ -7,7 +7,7 @@ export default function Header() {
       <nav className="navbar navbar-expand-lg navbar-light">
          <div className="container-lg">
             <Link className="navbar-brand bold" to="/">
-               LOGO
+               <img src="/logo-2.png" alt="v-merce logo" width={86} height={30} />
             </Link>
 
             <button
