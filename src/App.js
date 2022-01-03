@@ -1,6 +1,8 @@
 import { Route, BrowserRouter, Routes } from "react-router-dom"
 
+// Styles
 import "./styles/defaultLayout.css"
+import "./styles/productPage.css"
 
 // Pages
 import HomePage from "./pages/HomePage"
@@ -18,7 +20,7 @@ export default function App() {
 
                <Route path="/cart" element={<CartPage />} />
 
-               <Route path="/product" element={<ProductPage />} />
+               <Route path="/product/:id" element={<ProductPage />} />
 
                <Route path="/register" element={<RegisterPage />} />
 
