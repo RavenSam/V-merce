@@ -3,15 +3,17 @@ import { getDoc, doc } from "firebase/firestore"
 import fireDB from "../firebaseConfig"
 import DefaultLayout from "../layouts/DefaultLayout"
 import { useParams } from "react-router-dom"
-
-// const sizes = ["32gb", "64gb", "128gb", "256gb"]
+import { useDispatch } from "react-redux"
 
 export default function ProductPage() {
+   const [loading, setLoading] = useState(false)
    const [product, setProduct] = useState({})
    const [selectedSize, setSelectedSize] = useState()
+   const dispatch = useDispatch()
    const params = useParams()
 
    const getProduct = async (id) => {
+      setLoading(true)
       try {
          const data = await getDoc(doc(fireDB, "products", id))
 
@@ -20,18 +22,22 @@ export default function ProductPage() {
          if (data.data().sizes) {
             setSelectedSize(data.data().sizes[0])
          }
+         setLoading(false)
       } catch (err) {
          console.log(err)
+         setLoading(false)
       }
    }
 
-   useEffect(() => {
-      getProduct(params.id)
-   }, [params.id])
+   const addToCart = (product) => {
+      dispatch({ type: "ADD_TO_CART", payload: product })
+   }
+
+   useEffect(() => getProduct(params.id), [params.id])
 
    return (
-      <DefaultLayout>
-         <div className="conatiner">
+      <DefaultLayout loading={loading}>
+         <div className="container">
             <div className="row">
                <div className="col-md-6">
                   <div className="p-img text-center">
@@ -58,10 +64,17 @@ export default function ProductPage() {
                         ))}
                      </div>
                   )}
+
                   <p className="p-desc">
                      <strong>Description: </strong>
                      {product.description}
                   </p>
+
+                  <div className="">
+                     <button className="btn btn-1" onClick={() => addToCart(product)}>
+                        add to card
+                     </button>
+                  </div>
                </div>
             </div>
          </div>

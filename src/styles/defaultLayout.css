@@ -24,6 +24,66 @@
    padding: 0.4rem 1.4rem !important;
 }
 
+.btn-1 {
+   background-color: var(--color-1);
+   color: white !important;
+   text-transform: capitalize;
+   font-weight: 600;
+   opacity: 0.8;
+   transition: all 0.3s;
+}
+
+.btn-2 {
+   color: black;
+   background-color: white !important;
+   text-transform: capitalize;
+   font-weight: 600;
+   opacity: 0.8;
+   transition: all 0.3s;
+}
+
+.btn-1:hover,
+.btn-icon:hover {
+   opacity: 1;
+}
+
+.btn:active,
+.btn-icon:active {
+   transform: scale(0.9);
+}
+
+.btn-icon {
+   border: none;
+   border-radius: 25px;
+   width: 40px;
+   height: 40px;
+   line-height: 20px;
+   transition: all 0.3s;
+   opacity: 0.8;
+   font-size: 1.3rem;
+}
+
+.cart-length {
+   font-size: 0.7rem;
+   background-color: var(--color-1);
+   color: white;
+   font-weight: 600;
+   width: 24px;
+   height: 24px;
+   border-radius: 100%;
+   display: inline-block;
+   text-align: center;
+   line-height: 24px;
+}
+
+.h-screen {
+   height: 100vh !important;
+}
+
+img {
+   border: none;
+}
+
 a {
    text-decoration: none;
    color: inherit;

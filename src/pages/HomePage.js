@@ -3,13 +3,18 @@ import { collection, getDocs } from "firebase/firestore"
 import fireDB from "../firebaseConfig"
 import DefaultLayout from "../layouts/DefaultLayout"
 import { Link, useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 
 export default function HomePage() {
+   const [loading, setLoading] = useState(false)
+   const { cartItems } = useSelector((state) => state.cartReducer)
    const [products, setProducts] = useState([])
+   const dispatch = useDispatch()
 
    const navigate = useNavigate()
 
    const getProducts = async () => {
+      setLoading(true)
       try {
          const data = await getDocs(collection(fireDB, "products"))
 
@@ -20,8 +25,10 @@ export default function HomePage() {
          })
 
          setProducts(allProducts)
+         setLoading(false)
       } catch (err) {
          console.log(err)
+         setLoading(false)
       }
    }
 
@@ -29,12 +36,18 @@ export default function HomePage() {
       return str.length > len ? str.substring(0, len) + "..." : str
    }
 
+   const addToCart = (product) => {
+      dispatch({ type: "ADD_TO_CART", payload: product })
+   }
+
    useEffect(() => {
-      getProducts()
-   }, [])
+      localStorage.setItem("cartItems", JSON.stringify(cartItems))
+   }, [cartItems])
+
+   useEffect(() => getProducts(), [])
 
    return (
-      <DefaultLayout>
+      <DefaultLayout loading={loading}>
          <div className="container">
             <div className="row g-3">
                {products.map((product) => (
@@ -45,7 +58,9 @@ export default function HomePage() {
                         </div>
 
                         <div className="product-btn ">
-                           <button className="btn bg-dark text-light">Add to Cart</button>
+                           <button className="btn bg-dark text-light" onClick={() => addToCart(product)}>
+                              Add to Cart
+                           </button>
                            <button
                               className="btn bg-dark text-light"
                               onClick={() => navigate(`/product/${product.id}`)}

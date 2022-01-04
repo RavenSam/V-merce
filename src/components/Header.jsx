@@ -1,8 +1,11 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { HiOutlineMenuAlt3, HiOutlineShoppingCart, HiOutlineUser } from "react-icons/hi"
+import { useSelector } from "react-redux"
 
 export default function Header() {
+   const { cartItems } = useSelector((state) => state.cartReducer)
+
    return (
       <nav className="navbar navbar-expand-lg navbar-light">
          <div className="container-lg">
@@ -51,6 +54,7 @@ export default function Header() {
                   <li className="nav-item px-2">
                      <Link className="nav-link" to="/cart">
                         <HiOutlineShoppingCart size={25} />
+                        {cartItems.length > 0 && <span className="cart-length">{cartItems.length}</span>}
                      </Link>
                   </li>
                </ul>

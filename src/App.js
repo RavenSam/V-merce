@@ -3,6 +3,7 @@ import { Route, BrowserRouter, Routes } from "react-router-dom"
 // Styles
 import "./styles/defaultLayout.css"
 import "./styles/productPage.css"
+import "./styles/cartPage.css"
 
 // Pages
 import HomePage from "./pages/HomePage"
