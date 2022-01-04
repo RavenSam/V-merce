@@ -4,6 +4,7 @@ import { Route, BrowserRouter, Routes } from "react-router-dom"
 import "./styles/defaultLayout.css"
 import "./styles/productPage.css"
 import "./styles/cartPage.css"
+import "./styles/loginPage.css"
 
 // Pages
 import HomePage from "./pages/HomePage"
