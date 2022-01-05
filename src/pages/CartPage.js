@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import DefaultLayout from "../layouts/DefaultLayout"
 import CartTable from "../components/CartTable"
+import CheckoutModal from "../components/CheckoutModal"
 
 export default function CartPage() {
    const [totalAmount, setTotalAmount] = useState(0)
@@ -21,11 +22,11 @@ export default function CartPage() {
          <h1>Shopping Cart</h1>
 
          <div className="row s-content">
-            <div className="col-md-9">
+            <div className="col-md-8">
                <CartTable />
             </div>
 
-            <div className="col-md-3 s-total">
+            <div className="col-md-4 s-total">
                <div className="bg-dark">
                   <h2 className="s-title">Order Summary</h2>
 
@@ -53,7 +54,9 @@ export default function CartPage() {
                      <p>${totalAmount + 12}</p>
                   </div>
 
-                  <button className="btn-1 btn s-btn">Checkout</button>
+                  {/* <button className="btn-1 btn s-btn">Checkout</button> */}
+
+                  <CheckoutModal />
                </div>
             </div>
          </div>
