@@ -1,15 +1,36 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { HiHome } from "react-icons/hi"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import { toast } from "react-toastify"
 
 export default function LoginPage() {
    const [email, setEmail] = useState("")
    const [password, setPassword] = useState("")
    const [remember, setRemember] = useState(false)
+   const auth = getAuth()
+   const [loading, setLoading] = useState(false)
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
       e.preventDefault()
-      console.log({ email, password, remember })
+
+      try {
+         setLoading(true)
+
+         const { user } = await signInWithEmailAndPassword(auth, email, password)
+
+         localStorage.setItem("currentUser", JSON.stringify(user))
+         setLoading(false)
+         toast.success("You Logged Successfully")
+
+         setTimeout(() => {
+            window.location.href = "/"
+         }, 2000)
+      } catch (err) {
+         console.log(err)
+         setLoading(false)
+         toast.error("Something Went Wrong")
+      }
    }
 
    return (
@@ -67,8 +88,15 @@ export default function LoginPage() {
                      <Link to="/">Forget Password?</Link>
                   </div>
 
-                  <button type="submit" className="btn btn-1">
-                     Login
+                  <button type="submit" className="btn btn-1" disabled={loading}>
+                     {loading ? (
+                        <span>
+                           <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
+                           Loading...
+                        </span>
+                     ) : (
+                        " Login"
+                     )}
                   </button>
                </form>
             </div>

@@ -6,6 +6,11 @@ import { useSelector } from "react-redux"
 export default function Header() {
    const { cartItems } = useSelector((state) => state.cartReducer)
 
+   const logout = () => {
+      localStorage.removeItem("currentUser")
+      window.location.reload()
+   }
+
    return (
       <nav className="navbar navbar-expand-lg navbar-light">
          <div className="container-lg">
@@ -37,17 +42,29 @@ export default function Header() {
                      >
                         <HiOutlineUser size={25} />
                      </div>
-                     <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li>
-                           <Link className="dropdown-item" to="/login">
-                              Login
-                           </Link>
-                        </li>
-                        <li>
-                           <Link className="dropdown-item" to="/register">
-                              Register
-                           </Link>
-                        </li>
+                     <ul className="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                        {localStorage.getItem("currentUser") ? (
+                           <>
+                              <li>
+                                 <Link className="dropdown-item" to="/" onClick={logout}>
+                                    Logout
+                                 </Link>
+                              </li>
+                           </>
+                        ) : (
+                           <>
+                              <li>
+                                 <Link className="dropdown-item" to="/login">
+                                    Login
+                                 </Link>
+                              </li>
+                              <li>
+                                 <Link className="dropdown-item" to="/register">
+                                    Register
+                                 </Link>
+                              </li>
+                           </>
+                        )}
                      </ul>
                   </li>
 

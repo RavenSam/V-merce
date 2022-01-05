@@ -1,17 +1,32 @@
 import React, { useState } from "react"
 import { HiHome } from "react-icons/hi"
 import { Link } from "react-router-dom"
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { toast } from "react-toastify"
 
 export default function LoginPage() {
-   const [username, setUsername] = useState("")
    const [email, setEmail] = useState("")
    const [password, setPassword] = useState("")
    const [confirmPassword, setConfirmPassword] = useState("")
    const [agree, setAgree] = useState(false)
+   const auth = getAuth()
+   const [loading, setLoading] = useState(false)
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
       e.preventDefault()
-      console.log({ username, email, password, confirmPassword })
+
+      try {
+         setLoading(true)
+
+         await createUserWithEmailAndPassword(auth, email, password)
+
+         setLoading(false)
+         toast.success("You Registred Successfully")
+      } catch (err) {
+         console.log(err)
+         setLoading(false)
+         toast.error("Something Went Wrong")
+      }
    }
 
    return (
@@ -29,28 +44,15 @@ export default function LoginPage() {
 
             <div className="l-box">
                <form className="login-form" onSubmit={handleSubmit}>
-                  <div className="d-md-flex align-items-center ">
-                     <div className="input-box flex-fill">
-                        <label htmlFor="username">username</label>
-                        <input
-                           type="text"
-                           id="username"
-                           name="username"
-                           value={username}
-                           onChange={(e) => setUsername(e.target.value)}
-                        />
-                     </div>
-
-                     <div className="input-box mt-3 mt-md-0 ms-md-2 flex-fill">
-                        <label htmlFor="email">email</label>
-                        <input
-                           type="email"
-                           id="email"
-                           name="email"
-                           value={email}
-                           onChange={(e) => setEmail(e.target.value)}
-                        />
-                     </div>
+                  <div className="input-box ">
+                     <label htmlFor="email">email</label>
+                     <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                     />
                   </div>
 
                   <div className="d-md-flex align-items-center ">
@@ -93,8 +95,15 @@ export default function LoginPage() {
                      </div>
                   </div>
 
-                  <button type="submit" className="btn btn-1">
-                     Register
+                  <button type="submit" className="btn btn-1" disabled={loading}>
+                     {loading ? (
+                        <span>
+                           <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
+                           Loading...
+                        </span>
+                     ) : (
+                        " Register"
+                     )}
                   </button>
                </form>
             </div>
