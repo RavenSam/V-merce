@@ -1,15 +1,22 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { HiOutlineMenuAlt3, HiOutlineShoppingCart, HiOutlineUser } from "react-icons/hi"
 import { useSelector } from "react-redux"
 
 export default function Header() {
    const { cartItems } = useSelector((state) => state.cartReducer)
+   const [cartLength, setCartLength] = useState(0)
 
    const logout = () => {
       localStorage.removeItem("currentUser")
       window.location.reload()
    }
+
+   useEffect(() => {
+      let count = 0
+      cartItems.forEach((item) => (count += item.qty))
+      setCartLength(count)
+   }, [cartItems])
 
    return (
       <nav className="navbar navbar-expand-lg navbar-light">
@@ -71,7 +78,7 @@ export default function Header() {
                   <li className="nav-item px-2">
                      <Link className="nav-link" to="/cart">
                         <HiOutlineShoppingCart size={25} />
-                        {cartItems.length > 0 && <span className="cart-length">{cartItems.length}</span>}
+                        {cartLength > 0 && <span className="cart-length">{cartLength}</span>}
                      </Link>
                   </li>
                </ul>

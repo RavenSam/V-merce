@@ -6,15 +6,23 @@ import CheckoutModal from "../components/CheckoutModal"
 
 export default function CartPage() {
    const [totalAmount, setTotalAmount] = useState(0)
+   const [shippingCost, setShippingCost] = useState(12)
+   const [cartLength, setCartLength] = useState(0)
 
    const { cartItems } = useSelector((state) => state.cartReducer)
 
    useEffect(() => {
       let temp = 0
 
-      cartItems.forEach((el) => (temp += el.price))
+      cartItems.forEach((el) => (temp += el.price * el.qty))
 
       setTotalAmount(temp)
+   }, [cartItems])
+
+   useEffect(() => {
+      let count = 0
+      cartItems.forEach((item) => (count += item.qty))
+      setCartLength(count)
    }, [cartItems])
 
    return (
@@ -33,13 +41,13 @@ export default function CartPage() {
                   <hr />
 
                   <div className="s-sumary d-flex justify-content-between">
-                     <p>items {cartItems?.length}</p>
+                     <p>items {cartLength}</p>
                      <p>${totalAmount}</p>
                   </div>
 
                   <div className="s-sumary d-flex justify-content-between">
                      <p>shipping</p>
-                     <p>$12</p>
+                     <p>${shippingCost}</p>
                   </div>
 
                   <div className="s-sumary d-flex justify-content-between">
@@ -51,7 +59,7 @@ export default function CartPage() {
 
                   <div className="s-sumary d-flex justify-content-between">
                      <p>total cost</p>
-                     <p>${totalAmount + 12}</p>
+                     <p>${totalAmount + shippingCost}</p>
                   </div>
 
                   {/* <button className="btn-1 btn s-btn">Checkout</button> */}

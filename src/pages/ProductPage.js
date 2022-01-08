@@ -1,39 +1,22 @@
 import React, { useEffect, useState } from "react"
-import { getDoc, doc } from "firebase/firestore"
-import fireDB from "../firebaseConfig"
 import DefaultLayout from "../layouts/DefaultLayout"
 import { useParams } from "react-router-dom"
 import { useDispatch } from "react-redux"
+import { getProduct } from "../lib/fetchFunc"
 
 export default function ProductPage() {
    const [loading, setLoading] = useState(false)
+   const [qty, setQty] = useState(1)
    const [product, setProduct] = useState({})
    const [selectedSize, setSelectedSize] = useState()
    const dispatch = useDispatch()
    const params = useParams()
 
-   const getProduct = async (id) => {
-      setLoading(true)
-      try {
-         const data = await getDoc(doc(fireDB, "products", id))
-
-         setProduct(data.data())
-
-         if (data.data().sizes) {
-            setSelectedSize(data.data().sizes[0])
-         }
-         setLoading(false)
-      } catch (err) {
-         console.log(err)
-         setLoading(false)
-      }
-   }
-
    const addToCart = (product) => {
-      dispatch({ type: "ADD_TO_CART", payload: product })
+      dispatch({ type: "ADD_TO_CART", payload: { ...product, qty, id: params.id } })
    }
 
-   useEffect(() => getProduct(params.id), [params.id])
+   useEffect(() => getProduct(params.id, setProduct, setSelectedSize, setLoading), [params.id])
 
    return (
       <DefaultLayout loading={loading}>
@@ -64,6 +47,23 @@ export default function ProductPage() {
                         ))}
                      </div>
                   )}
+
+                  <div className="d-flex align-items-center my-4">
+                     <button className="btn btn-outline-dark" onClick={() => qty > 1 && setQty(qty - 1)}>
+                        -
+                     </button>
+                     <input
+                        className="text-center form-control w-25 ms-2"
+                        type="number"
+                        value={qty}
+                        min={1}
+                        max={10}
+                        onChange={(e) => setQty(e.target.value)}
+                     />
+                     <button className="btn btn-outline-dark ms-2" onClick={() => qty < 10 && setQty(qty + 1)}>
+                        +
+                     </button>
+                  </div>
 
                   <p className="p-desc">
                      <strong>Description: </strong>

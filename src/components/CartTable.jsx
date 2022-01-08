@@ -2,14 +2,11 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { HiX } from "react-icons/hi"
+import { truncate } from "../lib/helpers"
 
 export default function CartTable() {
    const { cartItems } = useSelector((state) => state.cartReducer)
    const dispatch = useDispatch()
-
-   const truncate = (str, len = 35) => {
-      return str.length > len ? str.substring(0, len) + "..." : str
-   }
 
    useEffect(() => {
       localStorage.setItem("cartItems", JSON.stringify(cartItems))
@@ -17,6 +14,10 @@ export default function CartTable() {
 
    const deleteFromCart = (product) => {
       dispatch({ type: "DELETE_FROM_CART", payload: product })
+   }
+
+   const adjustQty = (id, qty) => {
+      dispatch({ type: "ADJUST_QTY", payload: { id, qty } })
    }
 
    return (
@@ -32,7 +33,8 @@ export default function CartTable() {
                                  <img src={product.imageUrl} alt="" width={50} height={60} />
                               </div>
                            </td>
-                           <td>
+
+                           <td colSpan="2">
                               <div className="t-1">
                                  <span className="t-category">{product.category}</span>
 
@@ -43,6 +45,18 @@ export default function CartTable() {
                                  </Link>
                               </div>
                            </td>
+
+                           <td className="d-none d-md-table-cell">
+                              <input
+                                 className="text-center form-control w-50 mx-auto"
+                                 type="number"
+                                 value={product.qty}
+                                 min={1}
+                                 max={10}
+                                 onChange={(e) => adjustQty(product.id, +e.target.value)}
+                              />
+                           </td>
+
                            <td className="t-price">${product.price}</td>
 
                            <td>
