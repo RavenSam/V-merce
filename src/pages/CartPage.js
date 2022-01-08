@@ -6,6 +6,7 @@ import CheckoutModal from "../components/CheckoutModal"
 
 export default function CartPage() {
    const [totalAmount, setTotalAmount] = useState(0)
+   // eslint-disable-next-line
    const [shippingCost, setShippingCost] = useState(12)
    const [cartLength, setCartLength] = useState(0)
 
