@@ -6,7 +6,7 @@ export default function Footer() {
          <div className="container-lg">
             <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
             <hr />
-            <p>Commerce &copy; 2022</p>
+            <p>Vmerce &copy; 2022</p>
          </div>
       </footer>
    )

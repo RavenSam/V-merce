@@ -1,0 +1,13 @@
+.hero > div {
+   height: 50vh;
+}
+
+.hero h2 {
+   font-weight: 700;
+   font-size: 2.5rem;
+}
+
+.hero p {
+   font-weight: 500;
+   color: rgb(88, 88, 88);
+}

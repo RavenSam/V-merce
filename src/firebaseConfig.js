@@ -3,9 +3,9 @@ import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
    apiKey: process.env.REACT_APP_API_KEY,
-   authDomain: "v-merce.firebaseapp.com",
-   projectId: "v-merce",
-   storageBucket: "v-merce.appspot.com",
+   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+   projectId: process.env.REACT_APP_PROJECT_ID,
+   storageBucket: process.env.REACT_APP_BUCKET,
    messagingSenderId: process.env.REACT_APP_MSG_ID,
    appId: process.env.REACT_APP_APP_ID,
    measurementId: process.env.REACT_APP_MESURE_ID,

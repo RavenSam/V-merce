@@ -3,6 +3,7 @@ import DefaultLayout from "../layouts/DefaultLayout"
 import { useSelector } from "react-redux"
 import { getProducts } from "../lib/fetchFunc"
 import ProductCard from "../components/ProductCard"
+import Hero from "../components/Hero"
 
 export default function HomePage() {
    const [loading, setLoading] = useState(false)
@@ -18,6 +19,8 @@ export default function HomePage() {
    return (
       <DefaultLayout loading={loading}>
          <div className="container">
+            <Hero />
+
             <div className="row g-3">
                {products.map((product) => (
                   <div className="col-sm-6 col-md-4" key={product.id}>

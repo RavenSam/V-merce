@@ -7,6 +7,7 @@ import "./styles/defaultLayout.css"
 import "./styles/productPage.css"
 import "./styles/cartPage.css"
 import "./styles/loginPage.css"
+import "./styles/homePage.css"
 
 // Pages
 import HomePage from "./pages/HomePage"
